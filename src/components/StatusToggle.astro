@@ -3,7 +3,7 @@ import TitleContainer from './TitleContainer.astro';
 ---
 
 <div class="status-indicator live" id="statusToggle">
-	<TitleContainer text="EN VIVO" showDot={true} />
+	<TitleContainer fontSize="1.2rem" text="EN VIVO" showDot={true} />
 </div>
 
 <style>
@@ -33,8 +33,7 @@ import TitleContainer from './TitleContainer.astro';
 		align-items: center;
 		justify-content: center;
 		gap: 0.5rem;
-		font-size: 1.5rem;
-		font-weight: bold;
+		font-size: 1.2rem;
 		cursor: pointer;
 		user-select: none;
 		transition: transform 0.2s;
@@ -53,6 +52,7 @@ import TitleContainer from './TitleContainer.astro';
 		const titleContainer = statusToggle.querySelector('.title-container');
 		const textElement = titleContainer?.querySelector('span:not(.status-dot)');
 		const dotElement = titleContainer?.querySelector('.status-dot') as HTMLElement | null;
+		const isMobile = window.innerWidth <= 900;
 
 		if (isLive) {
 			if (textElement) textElement.textContent = 'EN VIVO';
@@ -60,7 +60,7 @@ import TitleContainer from './TitleContainer.astro';
 				dotElement.style.background = '#1fe01fff';
 			}
 		} else {
-			if (textElement) textElement.textContent = 'ADMIN DURMIENDO';
+			if (textElement) textElement.textContent = isMobile ? 'DURMIENDO' : 'ADMIN DURMIENDO';
 			if (dotElement) {
 				dotElement.style.background = '#ff0000';
 			}

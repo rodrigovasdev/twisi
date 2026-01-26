@@ -5,14 +5,15 @@ interface Props {
 	showDot?: boolean;
 	showBoxShadow?: boolean;
 	showBgWhite?: boolean;
+	fontSize?: string;
 }
 
-const { text, showDot = false, showBoxShadow = true, showBgWhite = true } = Astro.props;
+const { text, showDot = false, showBoxShadow = true, showBgWhite = true, fontSize = "1rem" } = Astro.props;
 let divClass = showBoxShadow? "title-container box-shadow" : "title-container";
 divClass  	+= showBgWhite ? " bg-white" : "";
 ---
 
-<div class={divClass}>
+<div class={divClass} style={`font-size: ${fontSize}`}>
 	{showDot && <span class="status-dot"></span>}
 	<span>{text}</span>
 </div>
@@ -24,7 +25,6 @@ divClass  	+= showBgWhite ? " bg-white" : "";
 		border-radius: 20px;
 		font-family: var(--display-font);
 		font-weight: 700;
-		font-size: 1rem;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -62,7 +62,6 @@ divClass  	+= showBgWhite ? " bg-white" : "";
 		.title-container {
 			padding: 0.5rem;
 			font-weight: 700;
-			font-size: 0.9rem;
 		}
 	}
 </style>
