@@ -1,0 +1,126 @@
+---
+import TwitchVideos from './TwitchVideos.astro';
+---
+
+<!-- Stream Container -->
+<div class="container stream-container" id="streamContainer">
+	<div class="stream-wrapper" id="streamContent">
+		<iframe
+			src="https://player.twitch.tv/?channel=rorrodios&parent=localhost"
+			height="100%"
+			width="100%"
+			allowfullscreen>
+		</iframe>
+	</div>
+	<div class="videos-wrapper hidden" id="videosContent">
+		<TwitchVideos />
+	</div>
+</div>
+
+<!-- Chat Container -->
+<div class="container chat-container" id="chatContainer">
+	<iframe
+		src="https://www.twitch.tv/embed/rorrodios/chat?parent=localhost"
+		height="100%"
+		width="100%">
+	</iframe>
+</div>
+
+<style>
+	.container {
+		background: white;
+		border-radius: 16px;
+		box-shadow: 0 4px 12px rgba(255, 105, 180, 0.1);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.stream-container {
+		grid-column: span 3;
+		grid-row: span 2;
+		padding: 0;
+		transition: grid-column 0.3s ease;
+	}
+
+	.stream-container.full-width {
+		grid-column: span 4;
+	}
+
+	.stream-wrapper, .videos-wrapper {
+		width: 100%;
+		height: 100%;
+	}
+
+	.stream-wrapper iframe {
+		border: none;
+	}
+
+	.chat-container {
+		grid-column: span 1;
+		grid-row: span 2;
+		padding: 0;
+		background: #f5f5f5;
+	}
+
+	.chat-container iframe {
+		border: none;
+	}
+
+	.hidden {
+		display: none !important;
+	}
+        	/* Responsive Design */
+	@media (max-width: 1024px) {
+
+	}
+
+	@media (max-width: 900px) {
+        .stream-container {
+			grid-column: span 4;
+			min-height: 400px;
+		}
+        .chat-container {
+            grid-column: span 4;
+            min-height: 400px;
+            padding: 0;
+            background: #f5f5f5;
+        }
+		
+	}
+</style>
+
+<script>
+	// Escuchar cambios en el estado de isLive
+	function updateStreamDisplay(isLive: boolean) {
+		const streamContent = document.getElementById('streamContent');
+		const videosContent = document.getElementById('videosContent');
+		const chatContainer = document.getElementById('chatContainer');
+		const streamContainer = document.getElementById('streamContainer');
+
+		if (streamContent && videosContent && chatContainer && streamContainer) {
+			if (isLive) {
+				// Mostrar stream y chat
+				streamContent.classList.remove('hidden');
+				videosContent.classList.add('hidden');
+				chatContainer.classList.remove('hidden');
+				streamContainer.classList.remove('full-width');
+			} else {
+				// Mostrar videos y ocultar chat, expandir a ancho completo
+				streamContent.classList.add('hidden');
+				videosContent.classList.remove('hidden');
+				chatContainer.classList.add('hidden');
+				streamContainer.classList.add('full-width');
+			}
+		}
+	}
+
+	// Evento personalizado para sincronizar estado
+	window.addEventListener('statusToggle', (e: Event) => {
+		const customEvent = e as CustomEvent;
+		updateStreamDisplay(customEvent.detail.isLive);
+	});
+
+	// Estado inicial (por defecto en vivo)
+	updateStreamDisplay(true);
+</script>

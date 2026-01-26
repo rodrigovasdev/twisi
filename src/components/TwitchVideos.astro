@@ -1,0 +1,251 @@
+---
+// Twitch Videos Component
+const CHANNEL_NAME = 'rorrodios';
+---
+
+<div class="videos-container">
+	<h2>Videos Recientes</h2>
+	<div class="carousel-container">
+		<div class="videos-carousel" id="videosCarousel">
+			<!-- Los videos se cargarán dinámicamente -->
+		</div>
+	</div>
+</div>
+
+<style>
+	.videos-container {
+		width: 100%;
+		height: 100%;
+		padding: 1.5rem;
+		background: #ffffff;
+		color: rgb(3, 3, 3);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+	}
+
+	h2 {
+		margin: 0 0 1rem 0;
+        margin-top: 10px;
+		color: #ff69b4;
+		font-family: var(--display-font);
+		font-size: 2rem;
+		text-align: center;
+	}
+
+	.carousel-container {
+		flex: 1;
+		overflow: hidden;
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.videos-carousel {
+		display: flex;
+		gap: 1rem;
+		transition: transform 0.5s ease;
+	}
+
+	.video-card {
+		min-width: calc(25% - 0.75rem);
+		flex-shrink: 0;
+		background: #2a2a2a;
+		border-radius: 12px;
+		overflow: hidden;
+		cursor: pointer;
+		transition: transform 0.2s, box-shadow 0.2s;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.video-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 16px rgba(255, 105, 180, 0.3);
+	}
+
+	.video-thumbnail {
+		width: 100%;
+		aspect-ratio: 16/9;
+		object-fit: cover;
+		background: #1a1a1a;
+		cursor: pointer;
+	}
+
+	.video-thumbnail[src*="placeholder"] {
+		object-fit: contain;
+		padding: 2rem;
+		cursor: pointer;
+	}
+
+	.video-info {
+		padding: 1rem;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.video-title {
+		margin: 0 0 0.5rem 0;
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: white;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.video-meta {
+		display: flex;
+		gap: 1rem;
+		font-size: 0.85rem;
+		color: #aaa;
+	}
+	}
+</style>
+
+<script define:vars={{ CHANNEL_NAME }}>
+	// Función para extraer ID del video de Twitch y generar thumbnail
+	function getTwitchThumbnail(videoUrl) {
+		// Extraer el ID del video de la URL
+		const match = videoUrl.match(/videos\/(\d+)/);
+		if (match && match[1]) {
+			const videoId = match[1];
+			// Twitch usa un formato específico para thumbnails
+			// Formato: https://vod-secure.twitch.tv/_404/404_processing_320x180.png es el fallback
+			// El formato real requiere acceso a la API, así que usamos el embed preview
+			return `https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/twitchvods999999999_${videoId}/thumb/thumb0-320x180.jpg`;
+		}
+		// Fallback a placeholder si no se puede extraer el ID
+		return 'https://via.placeholder.com/320x180/ff69b4/ffffff?text=Twitch+Video';
+	}
+
+	// Agrega tus videos de Twitch aquí - solo necesitas la URL
+	// El thumbnail se generará automáticamente (puede no funcionar para todos los videos)
+	// Si el thumbnail no carga, puedes especificar uno manualmente
+	const videos = [
+		{
+			url: 'https://www.twitch.tv/videos/2677371031',
+			title: 'streamer de variedad 🎮',
+			thumbnail: 'https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/579eeb99e2ab2208a8f3_isiipisi_316980224502_1769126027//thumb/thumb0-320x180.jpg', // Se generará automáticamente, o especifica uno manual aquí
+			views: '603',
+			duration: '2:34:12',
+			date: 'Hace 2 días'
+		},
+		{
+			url: 'https://www.twitch.tv/videos/2676604993',
+			title: 'streamer de variedad',
+            thumbnail: 'https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/bb7ee13012a9e3dcac48_isiipisi_316972621046_1769047728//thumb/thumb0-320x180.jpg', // Se generará automáticamente, o especifica uno manual aquí
+			views: '824',
+			duration: '45:20',
+			date: 'Hace 5 días'
+		},
+		{
+			url: 'https://www.twitch.tv/videos/2672152792',
+			title: 'streamer de variedad',
+            thumbnail: 'https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/ad128c9d9173bfd224db_isiipisi_317062341620_1768620755//thumb/thumb0-320x180.jpg', // Se generará automáticamente, o especifica uno manual aquí
+			views: '71',
+			duration: '1:15:30',
+			date: 'Hace 1 semana'
+		},
+		{
+			url: 'https://www.twitch.tv/isiipisi/clip/CreativeCourageousWolfUnSane-HgyKsy_jLkUAdyfk',
+			title: 'lloremos',
+            thumbnail: 'https://static-cdn.jtvnw.net/twitch-clips/FQ0HsR4MirMv4y5FAHcn5A/AT-cm%7CFQ0HsR4MirMv4y5FAHcn5A-preview-320x180.jpg', // Se generará automáticamente, o especifica uno manual aquí
+			views: '200',
+			duration: '15',
+			date: 'Hace 1 semana'
+		},
+        		{
+			url: 'https://www.twitch.tv/videos/2672041174',
+			title: 'otro strim',
+            thumbnail: 'https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/907b674266e436f4931d_isiipisi_317060953844_1768612831//thumb/thumb0-320x180.jpg', // Se generará automáticamente, o especifica uno manual aquí
+			views: '684',
+			duration: '3:15:30',
+			date: 'Hace 1 semana'
+		}
+	];
+
+	// Generar thumbnails automáticamente si no están especificados
+	const mockVideos = videos.map(video => ({
+		...video,
+		thumbnail: video.thumbnail || getTwitchThumbnail(video.url)
+	}));
+
+	function loadVideos() {
+		const carousel = document.getElementById('videosCarousel');
+		if (!carousel) return;
+
+		// Duplicar videos para efecto circular infinito
+		const allVideos = [...mockVideos, ...mockVideos];
+
+		carousel.innerHTML = allVideos.map((video, index) => `
+			<div class="video-card" data-video-url="${video.url}" data-index="${index}">
+				<img 
+					src="${video.thumbnail}" 
+					alt="${video.title}" 
+					class="video-thumbnail"
+					onerror="this.src='https://via.placeholder.com/320x180/ff69b4/ffffff?text=Video'"
+				>
+				<div class="video-info">
+					<h3 class="video-title">${video.title}</h3>
+					<div>
+						<div class="video-meta">
+							<span>👁️ ${video.views}</span>
+							<span>⏱️ ${video.duration}</span>
+						</div>
+						<div class="video-meta">
+							<span>📅 ${video.date}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		`).join('');
+
+		// Agregar event listeners a las tarjetas
+		carousel.querySelectorAll('.video-card').forEach(card => {
+			card.addEventListener('click', () => {
+				const videoUrl = card.dataset.videoUrl;
+				window.open(videoUrl, '_blank');
+			});
+		});
+
+		// Iniciar carrusel automático
+		startCarousel(carousel, mockVideos.length);
+	}
+
+	function startCarousel(carousel, originalLength) {
+		let currentIndex = 0;
+		const cardWidth = carousel.querySelector('.video-card')?.offsetWidth || 0;
+		const gap = 300; // 1rem gap
+		const moveDistance = cardWidth + gap;
+
+		setInterval(() => {
+			currentIndex++;
+			carousel.style.transform = `translateX(-${currentIndex * moveDistance}px)`;
+
+			// Cuando llegamos al final de los videos originales, resetear sin animación
+			if (currentIndex >= originalLength) {
+				setTimeout(() => {
+					carousel.style.transition = 'none';
+					currentIndex = 0;
+					carousel.style.transform = 'translateX(0)';
+					
+					// Restaurar transición después del reset
+					setTimeout(() => {
+						carousel.style.transition = 'transform 0.5s ease';
+					}, 50);
+				}, 500); // Esperar a que termine la animación
+			}
+		}, 3000); // Cambiar cada 3 segundos
+	}
+
+	// Cargar videos cuando el DOM esté listo
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', loadVideos);
+	} else {
+		loadVideos();
+	}
+</script>

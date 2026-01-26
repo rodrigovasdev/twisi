@@ -1,0 +1,106 @@
+---
+// Schedule Component
+import TitleContainer from './TitleContainer.astro';
+
+const scheduleItems = [
+	{ label: "Elo actual", value: "Esmeralda 2" },
+	{ label: "Campeon preferido", value: "Syndra" },
+	{ label: "Proximo stream", value: "Mañana" },
+	{ label: "Main role", value: "Mid" },
+	{ label: "Partidas jugadas", value: "67" },
+	{ label: "Win rate", value: "54%" }
+];
+---
+
+<div class="container schedule-container">
+	<TitleContainer text="Stats" showBoxShadow={false} />
+	<div class="schedule-wrapper">
+		<ul class="schedule-list" id="scheduleList">
+			{scheduleItems.map(item => (
+				<li><span class="day">{item.label}</span> {item.value}</li>
+			))}
+		</ul>
+	</div>
+</div>
+
+<script>
+	const scheduleList = document.getElementById('scheduleList');
+	if (scheduleList) {
+		
+		setInterval(() => {
+			// Animar el desplazamiento del primer elemento
+			scheduleList.style.transition = 'transform 0.5s ease-in-out';
+			scheduleList.style.transform = 'translateY(-36px)';
+			
+			// Después de la animación, mover el primer elemento al final
+			setTimeout(() => {
+				scheduleList.style.transition = 'none';
+				scheduleList.style.transform = 'translateY(0)';
+				
+				// Mover el primer elemento al final
+				const firstItem = scheduleList.firstElementChild;
+				if (firstItem) {
+					scheduleList.appendChild(firstItem);
+				}
+			}, 500);
+		}, 1290);
+	}
+</script>
+
+<style>
+	.container {
+		background: white;
+		border-radius: 16px;
+		padding: 1.5rem;
+		box-shadow: 0 4px 12px rgba(255, 105, 180, 0.1);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.schedule-container {
+		grid-column: span 1;
+		grid-row: span 1;
+		gap: 1rem;
+	}
+
+	.schedule-wrapper {
+		height: 123px; /* Altura para 3 items */
+		overflow: hidden;
+		position: relative;
+	}
+
+	.schedule-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		transition: transform 0.5s ease-in-out;
+	}
+
+	.schedule-list li {
+		padding: 0.5rem 0;
+		border-bottom: 1px solid rgba(255, 105, 180, 0.2);
+		color: #333;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.schedule-list li:last-child {
+		border-bottom: none;
+	}
+
+	.day {
+		font-weight: bold;
+		color: #ff69b4;
+	}
+
+	@media (max-width: 900px) {
+		.schedule-container {
+			grid-column: span 3;
+		}
+		
+		.schedule-list li {
+			display: block;
+		}
+	}
+</style>

@@ -1,0 +1,67 @@
+---
+// Description Component
+import TitleContainer from './TitleContainer.astro';
+---
+
+<div class="container description-container">
+	<TitleContainer text="Who's isipisi ?" showBgWhite={false} showBoxShadow={false} />
+	<p>Bienvenidos al stream favorito de los niños; a veces jugamos lol y otras veces también. Me gustan los dulces, las galletas, ver anime y jugar tenis. MUCHAS GRACIAS por pasarte por mi canal, puedes dejar tu saludo en el chat ❤️</p>
+	<div class="tags">
+        <TitleContainer text="LOL" />
+        <TitleContainer text="gamegirl" />
+        <TitleContainer text="princess" />
+	</div>
+</div>
+
+<style>
+	.container {
+		background: white;
+		border-radius: 16px;
+		padding: 1rem;
+		box-shadow: 0 4px 12px rgba(255, 105, 180, 0.1);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.description-container {
+		grid-column: span 2;
+		grid-row: span 1;
+		background: linear-gradient(-100deg, #9ff9ffd5 30%, #dcf2fc 100%);
+		justify-content: space-between;
+	}
+
+	p {
+		margin: 0;
+		line-height: 1.6;
+		color: #333;
+	}
+
+	.tags {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+		justify-content: center;
+
+	}
+	@media (max-width: 900px) {
+		.container {
+			padding: 1rem;
+		}
+		.description-container {
+			grid-column: span 4;
+			grid-row: span 2;
+			min-height: 250px;
+			background: linear-gradient(-100deg, #9ff9ffd5 30%, #dcf2fc 100%);
+			justify-content: space-between;
+		}
+
+		p {
+			margin: 0;
+			line-height: 1.6;
+			color: #333;
+			font-size: 0.9rem;
+		}
+			
+	}
+</style>

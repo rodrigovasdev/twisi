@@ -1,0 +1,74 @@
+---
+import TitleContainer from './TitleContainer.astro';
+---
+
+<div class="status-indicator live" id="statusToggle">
+	<TitleContainer text="EN VIVO" showDot={true} />
+</div>
+
+<style>
+	.status-indicator {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		font-size: 1.5rem;
+		font-weight: bold;
+		cursor: pointer;
+		user-select: none;
+		transition: transform 0.2s;
+		min-width: 320px;
+	}
+
+	.status-indicator:hover {
+		transform: scale(1.05);
+	}
+
+	.status-indicator:active {
+		transform: scale(0.95);
+	}
+    @media (max-width: 900px) {
+	.status-indicator {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		font-size: 1.5rem;
+		font-weight: bold;
+		cursor: pointer;
+		user-select: none;
+		transition: transform 0.2s;
+		min-width: 200px;
+	}
+	}
+</style>
+
+<script>
+	const statusToggle = document.getElementById('statusToggle');
+	let isLive = true;
+
+	statusToggle?.addEventListener('click', () => {
+		isLive = !isLive;
+		
+		const titleContainer = statusToggle.querySelector('.title-container');
+		const textElement = titleContainer?.querySelector('span:not(.status-dot)');
+		const dotElement = titleContainer?.querySelector('.status-dot') as HTMLElement | null;
+
+		if (isLive) {
+			if (textElement) textElement.textContent = 'EN VIVO';
+			if (dotElement) {
+				dotElement.style.background = '#1fe01fff';
+			}
+		} else {
+			if (textElement) textElement.textContent = 'ADMIN DURMIENDO';
+			if (dotElement) {
+				dotElement.style.background = '#ff0000';
+			}
+		}
+
+		// Emitir evento para que otros componentes sepan del cambio
+		window.dispatchEvent(new CustomEvent('statusToggle', {
+			detail: { isLive }
+		}));
+	});
+</script>

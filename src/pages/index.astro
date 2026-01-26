@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StatusHeader from '../components/StatusHeader.astro';
+import Description from '../components/Description.astro';
+import Schedule from '../components/Schedule.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import StreamOrVideos from '../components/StreamOrVideos.astro';
+---
+
+<Layout title="Twisi - Twitch Dashboard">
+	<main>
+		<div class="bento-grid">
+			<!-- Live Status -->
+			<StatusHeader />
+
+			<!-- Stream/Videos and Chat -->
+			<StreamOrVideos />
+
+			<!-- Description -->
+			<Description />
+
+			<!-- Schedule -->
+			<Schedule />
+
+			<!-- Social Links -->
+			<SocialLinks />
+		</div>
+	</main>
+</Layout>
+
+<style>
+	main {
+		width: 100%;
+		min-height: 100vh;
+		padding: 1rem;
+		box-sizing: border-box;
+	}
+
+	.bento-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-template-rows: auto 1fr minmax(200px, auto);
+		gap: 1rem;
+		max-width: 1400px;
+		margin: 0 auto;
+		height: calc(100vh - 2rem);
+	}
+
+	.container {
+		background: white;
+		border-radius: 16px;
+		padding: 1.5rem;
+		box-shadow: 0 4px 12px rgba(255, 105, 180, 0.1);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Status Container - Full width at top */
+	.status-container {
+		grid-column: span 4;
+		grid-row: span 1;
+		background: linear-gradient(135deg, #ff69b4 0%, #ec3898ff 100%);
+		color: white;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 2rem;
+		justify-content: center;
+	}
+
+
+
+	/* Responsive Design */
+	@media (max-width: 1024px) {
+		.bento-grid {
+			grid-template-columns: repeat(1, 1fr);
+			grid-template-rows: auto;
+			height: auto;
+		}
+
+		.stream-container {
+			grid-column: span 3;
+			min-height: 400px;
+		}
+
+		.chat-container {
+			grid-column: span 1;
+			min-height: 400px;
+		}
+
+		.description-container,
+		.status-container,
+		.schedule-container,
+		.social-container {
+			grid-column: span 1;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.bento-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.stream-container,
+		.description-container,
+		.status-container,
+		.schedule-container,
+		.social-container {
+			grid-column: span 1;
+		}
+	}
+</style>
