@@ -6,7 +6,7 @@ import TwitchVideos from './TwitchVideos.astro';
 <div class="container stream-container" id="streamContainer">
 	<div class="stream-wrapper" id="streamContent">
 		<iframe
-			src="https://player.twitch.tv/?channel=rorrodios&parent=localhost"
+			id="twitchPlayer"
 			height="100%"
 			width="100%"
 			allowfullscreen>
@@ -20,7 +20,7 @@ import TwitchVideos from './TwitchVideos.astro';
 <!-- Chat Container -->
 <div class="container chat-container" id="chatContainer">
 	<iframe
-		src="https://www.twitch.tv/embed/rorrodios/chat?parent=localhost"
+		id="twitchChat"
 		height="100%"
 		width="100%">
 	</iframe>
@@ -91,6 +91,19 @@ import TwitchVideos from './TwitchVideos.astro';
 </style>
 
 <script>
+	// Configurar el dominio correcto para Twitch
+	const currentDomain = window.location.hostname;
+	const twitchPlayer = document.getElementById('twitchPlayer') as HTMLIFrameElement;
+	const twitchChat = document.getElementById('twitchChat') as HTMLIFrameElement;
+	
+	if (twitchPlayer) {
+		twitchPlayer.src = `https://player.twitch.tv/?channel=rorrodios&parent=${currentDomain}`;
+	}
+	
+	if (twitchChat) {
+		twitchChat.src = `https://www.twitch.tv/embed/rorrodios/chat?parent=${currentDomain}`;
+	}
+
 	// Escuchar cambios en el estado de isLive
 	function updateStreamDisplay(isLive: boolean) {
 		const streamContent = document.getElementById('streamContent');
